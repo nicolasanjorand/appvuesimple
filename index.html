@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Marvel Characters</title>
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="main" v-cloak>
+            <p>{{data.activity}}</p>
+        </form>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script>
+            const apiURL =
+				"https://www.boredapi.com/api/activity";
+			const config = {
+			};
+            const demo = Vue.createApp({
+                data() {
+                    return {
+                        test: "salut",
+                        data: [],
+                    };
+                },
+                computed: {
+                    
+                },
+                created: function () {
+					this.getData();
+				},
+                methods: {
+                    getData: function () {
+						const self = this;
+						axios
+							.get(apiURL, config)
+							.then(function (response) {
+								self.data = response.data;
+                                console.log(self.data)
+							})
+							.catch(function (error) {
+								console.log(error);
+							});
+					},
+                }
+            }).mount("#main");
+        </script>
+    </body>
+</html>
