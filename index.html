@@ -5,9 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>Marvel Characters</title>
+        <title>Never get bored again</title>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
 
             [v-cloak] {
                 display: none;
@@ -36,33 +37,35 @@
             .title {
                 font-size: 28px;
                 font-weight: 900;
+                width: 600px;
+                text-align: center;
             }
 
             progress {
                 border: 0;
                 height: 6px;
                 border-radius: 20px;
-                width: 80px;
+                width: 150px;
             }
             progress::-webkit-progress-bar {
                 border: 0;
                 height: 6px;
                 border-radius: 20px;
                 background-color: #abd1c6;
-                width: 80px;
+                width: 150px;
             }
             progress::-webkit-progress-value {
                 border: 0;
                 height: 6px;
                 border-radius: 20px;
                 background-color: #004643;
-                width: 80px;
+                width: 150px;
             }
             progress::-moz-progress-bar {
                 border: 0;
                 height: 6px;
                 border-radius: 20px;
-                width: 80px;
+                width: 150px;
             }
 
             .grid-wrapper {
@@ -108,7 +111,7 @@
             .link {
                 position: absolute;
                 color: #abd1c6;
-                margin-top: 50px;
+                margin-top: 400px;
                 cursor: pointer;
                 z-index: 2;
                 display: none;
@@ -118,11 +121,11 @@
                 display: block;
             }
 
-            button {
+            .button {
                 all: unset;
                 position: absolute;
                 cursor: pointer;
-                margin-top: 300px;
+                margin-top: 160px;
                 z-index: 2;
                 background-color: #f9bc60;
                 color: #001e1d;
@@ -132,18 +135,62 @@
                 transition: all 0.3s ease-in-out;
             }
 
-            button:hover {
+            .button:hover {
                 background-color: #fffffe;
+            }
+
+            label {
+                position: absolute;
+                margin-left: 30px;
+                margin-top: 30px;
+            }
+
+            select{
+                all: unset;
+                position: absolute;
+                z-index: 2;
+                background-color: #abd1c6;
+                color: #001e1d;
+                font-weight: 600;
+                transition: all 0.3s ease-in-out;
+                text-align: center;
+                width: 50px;
+                height: 35px;
+                margin-left: 30px;
+                margin-top: 60px;
+                line-height: 35px;
+            }
+
+            option {
+                all: unset;
+            }
+
+            .logo {
+                font-size: 28px;
+                font-weight: 900;
+                position: absolute;
+                align-self: flex-start;
+                margin-top: 30px;
+                font-family: 'Playfair Display', serif;
             }
 
         </style>
     </head>
     <body>
         <form id="main" v-cloak>
+            <label for="nb">How many are you ?</label>
+            <select id="nb" name="nb" v-on:change="updateData();">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
             <div class="wrapper">
+                <p class="logo">Never get bored again...</p>
                 <p class="title">{{data.activity}}</p>
                 <p class="link" v-bind:class="{ 'active': data.link != ''}"><a v-bind:href="data.link" target="_blank">Check here !</a></p>
-                <button><a href="">Find an other activity !</a></button>
+                <div class="button" v-on:click="updateData();">Find an other activity !</div>
             </div>
             <div class="grid-wrapper">
                 <div class="grid">
@@ -169,8 +216,8 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/vue@3"></script>
         <script>
-            const apiURL =
-				"https://www.boredapi.com/api/activity";
+            let apiURL =
+				"https://www.boredapi.com/api/activity/";
 			const config = {
 			};
             const demo = Vue.createApp({
@@ -182,18 +229,38 @@
                 computed: {
                     
                 },
-                mounted() {
-                    const self = this;
-                    axios
-                        .get(apiURL, config)
-                        .then(function (response) {
-                            self.data = response.data;
-                            console.log(self.data)
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                }
+                created: function () {
+					this.getData();
+				},
+				methods: {
+					getData() {
+                        const self = this;
+                        axios
+                            .get(apiURL, config)
+                            .then(function (response) {
+                                self.data = response.data;
+                                console.log(self.data)
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    },
+                    updateData(){
+                        let nb = document.getElementById('nb').value
+                        apiURL = "https://www.boredapi.com/api/activity?participants=" + String(nb);
+                        console.log(apiURL)
+                        const self = this;
+                        axios
+                            .get(apiURL, config)
+                            .then(function (response) {
+                                self.data = response.data;
+                                console.log(self.data)
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+				},
             }).mount("#main");
         </script>
     </body>
