@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Never get bored again</title>
+        <link rel="icon" href="images/Smiley.png" />
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
             @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
@@ -74,6 +75,7 @@
                 position: absolute;
                 display: flex;
                 align-items: center;
+                justify-items: center;
             }
 
             .grid {
@@ -166,18 +168,145 @@
             }
 
             .logo {
+                width: 100vw;
+                height: 100px;
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .logo span {
                 font-size: 28px;
                 font-weight: 900;
-                position: absolute;
-                align-self: flex-start;
-                margin-top: 30px;
                 font-family: 'Playfair Display', serif;
             }
+
+            .animation {
+                width: 100vw;
+                height: 100vh;
+                position: absolute;
+                background-color: #004643;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 5;
+            }
+
+            .logo2 {
+                font-size: 28px;
+                font-weight: 900;
+                font-family: 'Playfair Display', serif;
+            }
+
+            .animation span {
+                font-size: 28px;
+                font-weight: 900;
+                font-family: 'Playfair Display', serif;
+            }
+
+            #point1 {
+                animation: float 1.5s ease-in-out infinite;
+            }
+
+            #point2 {
+                animation: float 1.5s ease-in-out infinite 0.5s;
+            }
+
+            #point3 {
+                animation: float 1.5s ease-in-out infinite 1s;
+            }
+
+            @keyframes float {
+                0% {
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            .animation2 {
+                width: 100vw;
+                height: 100vh;
+                position: absolute;
+                background-color: #abd1c6;
+                z-index: 6;
+                animation: height 0.8s ease-in-out 2s;
+                animation-fill-mode: forwards; 
+                transform: scale(0); 
+            }
+
+            .animation3 {
+                width: 100vw;
+                height: 100vh;
+                position: absolute;
+                background-color: #004643;
+                z-index: 6;
+                animation: height 0.8s ease-in-out 2.3s;
+                animation-fill-mode: forwards; 
+                transform: scale(0); 
+                transition: all 0.5s ease-in-out;
+            }
+
+            @keyframes height {
+                0% {
+                    transform: scaleY(0);
+                }
+                100% {
+                    transform: scaleY(1);
+                }
+            }
+
+            @keyframes opacity {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            @media (max-width : 1200px) {
+                .grid-wrapper {
+                    display: flex;
+                    justify-content: center;
+                }
+                .grid {
+                    position: absolute;
+                    margin-right: 0;
+                    right: auto;
+                    bottom: 0;
+                    width: 70vw;
+                    justify-self: center;
+                    margin-bottom: 30px;
+                }
+
+                .wrapper {
+                    height: 50vh;
+                }
+                
+                .link {
+                    margin-top: 200px;
+                }
+            }
+
 
         </style>
     </head>
     <body>
         <form id="main" v-cloak>
+            <div class="animation" id="animation1">
+                <p class="logo2">Never get bored again</p>
+                <span id="point1">.</span>
+                <span id="point2">.</span>
+                <span id="point3">.</span>
+            </div>
+            <div class="animation2" id="animation2"></div>
+            <div class="animation3" id="animation3"></div>
             <label for="nb">How many are you ?</label>
             <select id="nb" name="nb" v-on:change="updateData();">
                 <option value="1">1</option>
@@ -186,8 +315,13 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
+            <div class="logo">
+                <p class="logo2">Never get bored again</p>
+                <span id="point1">.</span>
+                <span id="point2">.</span>
+                <span id="point3">.</span>
+            </div>
             <div class="wrapper">
-                <p class="logo">Never get bored again...</p>
                 <p class="title">{{data.activity}}</p>
                 <p class="link" v-bind:class="{ 'active': data.link != ''}"><a v-bind:href="data.link" target="_blank">Check here !</a></p>
                 <div class="button" v-on:click="updateData();">Find an other activity !</div>
@@ -213,6 +347,16 @@
                 </div>
             </div>
         </form>
+        <script>
+            setTimeout(() => {
+                document.getElementById('animation1').style.display = 'none';
+                document.getElementById('animation2').style.display = 'none';
+                document.getElementById('animation3').style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById('animation3').style.display = 'none';
+                }, 500);
+            }, 3500);
+        </script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/vue@3"></script>
         <script>
